@@ -4,3 +4,4 @@ export interface IModal {
 }
 
 export type OpenModal<T> = (params: T) => void;
+export type CloseModal = () => void;

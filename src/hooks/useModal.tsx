@@ -1,22 +1,11 @@
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import React, { ReactElement, createContext, useCallback, useContext, useState } from 'react';
 
-import { OpenModal } from '../types/modal';
-import Alert, { AlertProps } from '../components/modals/Alert';
-import Confirm, { ConfirmProps } from '../components/modals/Confirm';
-import GuideModal from '../components/modals/GuideModal';
-import PostUploadModal, {
-  PostUploadModalProps,
-} from '../components/modals/PostUploadModal';
-import APICallModal, {
-  APICallModalProps,
-} from '../components/modals/APICallModal';
+import { OpenModal, CloseModal } from '../types/modal';
+import Alert, { AlertProps } from '../components/modals/Generic';
 
 interface IModalContext {
   openAlert: OpenModal<AlertProps>;
-  openConfirm: OpenModal<ConfirmProps>;
-  openGuideModal: VoidFunction;
-  openPostUploadModal: OpenModal<PostUploadModalProps>;
-  openAPICallModal: OpenModal<APICallModalProps>;
+  closeAlert: CloseModal;
 }
 
 const ModalContext = createContext<IModalContext>({} as IModalContext);
@@ -43,7 +32,10 @@ const useDefaultModalLogic = <T extends unknown>() => {
   };
 };
 
-export const useModal = () => useContext(ModalContext);
+export const useModal = () => {
+  const {openAlert, closeAlert} = useContext(ModalContext);
+  return {openAlert, closeAlert};
+};
 
 export const ModalContextProvider = ({
   children,
@@ -56,64 +48,16 @@ export const ModalContextProvider = ({
     props: alertProps,
     visible: alertVisible,
   } = useDefaultModalLogic<AlertProps>();
-  const {
-    openModal: openConfirm,
-    closeModal: closeConfirm,
-    props: confirmProps,
-    visible: confirmVisible,
-  } = useDefaultModalLogic<ConfirmProps>();
-  const {
-    openModal: openGuideModal,
-    closeModal: closeGuideModal,
-    visible: guideModalVisible,
-  } = useDefaultModalLogic<unknown>();
-  const {
-    openModal: openPostUploadModal,
-    closeModal: closePostUploadModal,
-    visible: postUploadModalVisible,
-    props: postUploadModalProps,
-  } = useDefaultModalLogic<PostUploadModalProps>();
-  const {
-    openModal: openAPICallModal,
-    closeModal: closeAPICallModal,
-    visible: openAPICallModalVisible,
-    props: openAPICallModalProps,
-  } = useDefaultModalLogic<APICallModalProps>();
 
   const modalContextValue: IModalContext = {
     openAlert,
-    openConfirm,
-    openGuideModal,
-    openPostUploadModal,
-    openAPICallModal,
+    closeAlert,
   };
 
   return (
     <ModalContext.Provider value={modalContextValue}>
       {alertProps && (
         <Alert {...alertProps} onClose={closeAlert} visible={alertVisible} />
-      )}
-      {confirmProps && (
-        <Confirm
-          {...confirmProps}
-          onClose={closeConfirm}
-          visible={confirmVisible}
-        />
-      )}
-      <GuideModal onClose={closeGuideModal} visible={guideModalVisible} />
-      {postUploadModalProps && (
-        <PostUploadModal
-          {...postUploadModalProps}
-          onClose={closePostUploadModal}
-          visible={postUploadModalVisible}
-        />
-      )}
-      {openAPICallModalProps && (
-        <APICallModal
-          {...openAPICallModalProps}
-          onClose={closeAPICallModal}
-          visible={openAPICallModalVisible}
-        />
       )}
       {children}
     </ModalContext.Provider>

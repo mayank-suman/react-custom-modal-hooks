@@ -2,54 +2,38 @@ import { useState } from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { useModal } from '../../hooks/useModal';
 
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '1px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 function Examples() {
-  const {
-    openAlert,
-    openConfirm,
-    openGuideModal,
-    openPostUploadModal,
-    openAPICallModal,
-  } = useModal();
+  const { openAlert, closeAlert } = useModal();
 
   const openAlertExample = () => {
     openAlert({
-      title: 'Alert Example',
-      message: 'Hello Dev.to!',
-    });
-  };
-
-  const openConfirmExample = () => {
-    openConfirm({
-      title: 'Confirm Example',
-      message: 'Do you like this post?',
-      cancelText: 'NO',
-      confirmText: 'YES',
-      onCancel: () => openAlert({ message: 'clicked NO' }),
-      onConfirm: () => openAlert({ message: 'clicked YES' }),
-    });
-  };
-
-  const openGuideModalExample = () => {
-    openGuideModal();
-  };
-
-  const openPostUploadModalExample = () => {
-    openPostUploadModal({
-      onSubmit: (title, content) => {
-        openAlert({
-          title: 'Form Data',
-          message: `title: ${title} content: ${content}`,
-        });
-      },
-    });
-  };
-
-  const openAPICallModalExample = () => {
-    openAPICallModal({
-      postId: 1,
+      component: (
+        <Box sx={style}>
+          <Typography variant="h6" component="h2">
+            Title
+          </Typography>
+          <Typography sx={{ mt: 2 }}>Hello Body</Typography>
+          <Grid container justifyContent="flex-end">
+            <Button onClick={() => closeAlert()}>OK</Button>
+          </Grid>
+        </Box>
+      ),
     });
   };
 
@@ -59,42 +43,6 @@ function Examples() {
         <Grid item>
           <Button variant="contained" onClick={openAlertExample}>
             Alert
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={openConfirmExample}
-          >
-            Confirm
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            color="info"
-            onClick={openGuideModalExample}
-          >
-            Modal Without Props
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            color="success"
-            onClick={openPostUploadModalExample}
-          >
-            Upload a post
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            color="error"
-            onClick={openAPICallModalExample}
-          >
-            JSON Placeholder Post API
           </Button>
         </Grid>
       </Grid>
