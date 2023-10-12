@@ -19,10 +19,10 @@ const style = {
 };
 
 function Examples() {
-  const { openAlert, closeAlert } = useModal();
+  const { open, close } = useModal();
 
   const openAlertExample = () => {
-    openAlert({
+    open({
       component: (
         <Box sx={style}>
           <Typography variant="h6" component="h2">
@@ -30,7 +30,23 @@ function Examples() {
           </Typography>
           <Typography sx={{ mt: 2 }}>Hello Body</Typography>
           <Grid container justifyContent="flex-end">
-            <Button onClick={() => closeAlert()}>OK</Button>
+            <Button onClick={() => close()}>OK</Button>
+          </Grid>
+        </Box>
+      ),
+    });
+  };
+
+  const openAlertExample2 = () => {
+    open({
+      component: (
+        <Box sx={style}>
+          <Typography variant="h6" component="h2">
+            Title2 
+          </Typography>
+          <Typography sx={{ mt: 2 }}>Hello Body</Typography>
+          <Grid container justifyContent="flex-end">
+            <Button onClick={() => close()}>OK</Button>
           </Grid>
         </Box>
       ),
@@ -43,6 +59,10 @@ function Examples() {
         <Grid item>
           <Button variant="contained" onClick={openAlertExample}>
             Alert
+          </Button>
+          <br />
+          <Button variant="contained" onClick={openAlertExample2}>
+            Alert 2 
           </Button>
         </Grid>
       </Grid>

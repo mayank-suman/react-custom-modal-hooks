@@ -2,19 +2,17 @@ import Modal from '@mui/material/Modal';
 import { IModal } from '../../../types/modal';
 import { ReactNode } from 'react';
 
-export interface AlertProps extends IModal {
+export interface DialogProps extends IModal {
   onOk?: VoidFunction;
   component?: ReactNode;
 }
 
-
-
-const Alert = ({
+const Dialog = ({
   component,
   visible = false,
   onClose,
   onOk,
-}: AlertProps) => {
+}: DialogProps) => {
   const handleOk = () => {
     onOk?.();
     onClose?.();
@@ -28,4 +26,4 @@ const Alert = ({
   );
 };
 
-export default Alert;
+export default Dialog;

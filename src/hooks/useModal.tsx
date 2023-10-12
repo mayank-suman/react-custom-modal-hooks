@@ -1,11 +1,11 @@
 import React, { ReactElement, createContext, useCallback, useContext, useState } from 'react';
 
 import { OpenModal, CloseModal } from '../types/modal';
-import Alert, { AlertProps } from '../components/modals/Generic';
+import Dialog, { DialogProps } from '../components/modals/Generic';
 
 interface IModalContext {
-  openAlert: OpenModal<AlertProps>;
-  closeAlert: CloseModal;
+  openDialog: OpenModal<DialogProps>;
+  closeDialog: CloseModal;
 }
 
 const ModalContext = createContext<IModalContext>({} as IModalContext);
@@ -33,8 +33,8 @@ const useDefaultModalLogic = <T extends unknown>() => {
 };
 
 export const useModal = () => {
-  const {openAlert, closeAlert} = useContext(ModalContext);
-  return {openAlert, closeAlert};
+  const {openDialog, closeDialog} = useContext(ModalContext);
+  return {open: openDialog, close: closeDialog};
 };
 
 export const ModalContextProvider = ({
@@ -43,21 +43,21 @@ export const ModalContextProvider = ({
   children?: React.ReactNode;
 }) => {
   const {
-    openModal: openAlert,
-    closeModal: closeAlert,
-    props: alertProps,
-    visible: alertVisible,
-  } = useDefaultModalLogic<AlertProps>();
+    openModal: openDialog,
+    closeModal: closeDialog,
+    props: dialogProps,
+    visible: dialogVisible,
+  } = useDefaultModalLogic<DialogProps>();
 
   const modalContextValue: IModalContext = {
-    openAlert,
-    closeAlert,
+    openDialog,
+    closeDialog,
   };
 
   return (
     <ModalContext.Provider value={modalContextValue}>
-      {alertProps && (
-        <Alert {...alertProps} onClose={closeAlert} visible={alertVisible} />
+      {dialogProps && (
+        <Dialog {...dialogProps} onClose={closeDialog} visible={dialogVisible} />
       )}
       {children}
     </ModalContext.Provider>
