@@ -1,4 +1,4 @@
-import React, { ReactElement, createContext, useCallback, useContext, useState } from 'react';
+import React, { ReactElement, ReactNode, createContext, useCallback, useContext, useState } from 'react';
 
 import { OpenModal, CloseModal } from '../types/modal';
 import Dialog, { DialogProps } from '../components/modals/Generic';
@@ -32,9 +32,9 @@ const useDefaultModalLogic = <T extends unknown>() => {
   };
 };
 
-export const useModal = () => {
+export const useModal = (modalComp: ReactNode) => {
   const {openDialog, closeDialog} = useContext(ModalContext);
-  return {open: openDialog, close: closeDialog};
+  return {open: () => openDialog({component: modalComp}), close: closeDialog};
 };
 
 export const ModalContextProvider = ({

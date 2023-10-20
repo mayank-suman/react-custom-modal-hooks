@@ -19,51 +19,37 @@ const style = {
 };
 
 function Examples() {
-  const { open, close } = useModal();
+  const { open, close } = useModal(<Box sx={style}>
+    <Typography variant="h6" component="h2">
+      Title
+    </Typography>
+    <Typography sx={{ mt: 2 }}>Hello Body</Typography>
+    <Grid container justifyContent="flex-end">
+      <Button onClick={() => close()}>OK</Button>
+    </Grid>
+  </Box>);
 
-  const openAlertExample = () => {
-    open({
-      component: (
-        <Box sx={style}>
-          <Typography variant="h6" component="h2">
-            Title
-          </Typography>
-          <Typography sx={{ mt: 2 }}>Hello Body</Typography>
-          <Grid container justifyContent="flex-end">
-            <Button onClick={() => close()}>OK</Button>
-          </Grid>
-        </Box>
-      ),
-    });
-  };
-
-  const openAlertExample2 = () => {
-    open({
-      component: (
-        <Box sx={style}>
-          <Typography variant="h6" component="h2">
-            Title2 
-          </Typography>
-          <Typography sx={{ mt: 2 }}>Hello Body</Typography>
-          <Grid container justifyContent="flex-end">
-            <Button onClick={() => close()}>OK</Button>
-          </Grid>
-        </Box>
-      ),
-    });
-  };
+const { open: open2, close: close2 } = useModal(<Box sx={style}>
+  <Typography variant="h6" component="h2">
+    Title
+  </Typography>
+  <Typography sx={{ mt: 2 }}>Hello Body 2</Typography>
+  <Grid container justifyContent="flex-end">
+    <Button onClick={() => close()}>OK</Button>
+  </Grid>
+</Box>);
 
   return (
     <Container maxWidth="sm" sx={{ textAlign: 'center', marginTop: 12 }}>
       <Grid container spacing={2} direction="column">
         <Grid item>
-          <Button variant="contained" onClick={openAlertExample}>
+          <Button variant="contained" onClick={open}>
             Alert
           </Button>
-          <br />
-          <Button variant="contained" onClick={openAlertExample2}>
-            Alert 2 
+          <Button variant="contained" onClick={open2}>
+            Alert 2
           </Button>
+          <br />
         </Grid>
       </Grid>
     </Container>
